@@ -4,7 +4,7 @@ import {useRef, useState} from "react";
 const isEmpty = value => value.trim() === '';
 const isFiveChars = value => value.trim().length === 5;
 
-const Checkout = (props) => {
+const Checkout = ({onCancel, onConfirm}) => {
      const [formInputsValidity, setFormInputValidity] = useState({
          name: true,
          street:true,
@@ -44,6 +44,13 @@ const Checkout = (props) => {
         if(!formIsValid){
             return;
         }
+
+        onConfirm({
+            name:enteredName,
+            street:enteredStreet,
+            city: enteredCity,
+            postalCode: enteredPostal
+        })
     };
 
     const nameCtrlClasses = `${classes.control} ${!formInputsValidity.name && classes.invalid}`;
@@ -73,7 +80,7 @@ const Checkout = (props) => {
                 {!formInputsValidity.city && <p>Not a valid city</p>}
             </div>
             <div className={classes.actions}>
-                <button type='button' onClick={props.onCancel}>
+                <button type='button' onClick={onCancel}>
                     Cancel
                 </button>
                 <button className={classes.submit}>Confirm</button>
